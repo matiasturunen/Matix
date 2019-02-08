@@ -44,7 +44,7 @@ enum {
     UART0_ITIP   = (UART0_BASE + 0x84),
     UART0_ITOP   = (UART0_BASE + 0x88),
     UART0_TDR    = (UART0_BASE + 0x8C),
-}
+};
 
 void uart_init() {
 	mmio_write(UART0_CR, 0x00000000); // Disable all UART hardware
