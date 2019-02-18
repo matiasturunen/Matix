@@ -1,0 +1,2 @@
+void memcpy();
+void bzero();
