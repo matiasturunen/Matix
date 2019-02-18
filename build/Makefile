@@ -1,11 +1,11 @@
 # Use ARM compiler
-CC = arm-none.eabi-gcc
+CC = arm-none-eabi-gcc
 
 CPU = cortex-a7
 
 # Flags
 CFLAGS = -mcpu=$(CPU) -fpic -ffreestanding
-CSRCFLAGS = -O2 -Wall -Wextra
+CSRCFLAGS = -O2 -Wall -Wextra -std=gnu99
 LFLAGS = -ffreestanding -O2 -nostdlib
 
 # File locations
