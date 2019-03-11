@@ -13,3 +13,4 @@ void bzero (void * dest, int bytes) {
 		*d++ = 0;
 	}
 }
+	

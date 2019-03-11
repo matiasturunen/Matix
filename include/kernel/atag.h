@@ -22,14 +22,14 @@ typedef struct {
 } initrd2_t;
 
 typedef struct {
-	char line[i];
+	char line[1];
 } cmdline_t;
 
 typedef struct atag {
 	uint32_t tag_size;
 	atag_tag_t tag;
 	union {
-		mem_t memM
+		mem_t mem;
 		initrd2_t initrd2;
 		cmdline_t cmdline;
 	};

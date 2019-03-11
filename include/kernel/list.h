@@ -14,7 +14,7 @@ typedef struct nodeType##list { \
 	struct nodeType * head; 	\
 	struct nodeType * tail; 	\
 	uint32_t size; 				\
-} nodeType##_list_t;
+} nodeType##_list_t;			
 
 #define DEFINE_LINK(nodeType)		\
 struct nodeType * next##nodeType;	\

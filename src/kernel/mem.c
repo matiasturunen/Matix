@@ -1,6 +1,9 @@
+#include <kernel/list.h>
 #include <kernel/atag.h>
 #include <kernel/mem.h>
+#include <common/stdlib.h>
 #include <stdint.h>
+#include <stddef.h>
 
 extern uint8_t __end;
 
