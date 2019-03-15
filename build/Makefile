@@ -11,7 +11,7 @@ LFLAGS = -ffreestanding -O2 -nostdlib
 # File locations
 KER_SRC = ../src/kernel
 KER_HEAD = ../include
-COMMON_SRC = ../src/COMMON_SRC
+COMMON_SRC = ../src/common
 OBJ_DIR = objects
 KERSOURCES = $(wildcard $(KER_SRC)/*.c)
 COMMONSOURCES = $(wildcard $(COMMON_SRC)/*.c)

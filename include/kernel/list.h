@@ -20,7 +20,11 @@ typedef struct nodeType##list { \
 struct nodeType * next##nodeType;	\
 struct nodeType * prev##nodeType;
 
-#define INITIALIZE_LIST(nodeType) 	\
+#define INITIALIZE_LIST(list) \
+	list.head = list.tail = (void*)0; \
+	list.size = 0;
+
+#define IMPLEMENT_LIST(nodeType) 	\
 void append_##nodeType##_list(nodeType##_list_t * list, struct nodeType * node) { 	\
 	list->tail->next##nodeType = node;												\
 	node->prev##nodeType = list->tail;												\
