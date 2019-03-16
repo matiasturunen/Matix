@@ -1,4 +1,4 @@
 char getc();
 void putc(char c);
-char* gets();
-void puts(char* s);
+void gets(char * buf, int buflen);
+void puts(const char* str);

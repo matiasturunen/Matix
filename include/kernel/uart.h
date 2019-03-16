@@ -1,3 +1,6 @@
+#include <stdint.h>
+#include <stddef.h>
+
 enum {
 	// GPIO registers base address
 	GPIO_BASE = 0x3F200000,
@@ -30,8 +33,11 @@ enum {
 
 void mmio_write(uint32_t reg, uint32_t data);
 uint32_t mmio_read(uint32_t reg);
+
 void delay(int32_t count);
+
 void uart_init();
+
 void uart_putc(unsigned char c);
 unsigned char uart_getc();
 void uart_puts(const char* str);

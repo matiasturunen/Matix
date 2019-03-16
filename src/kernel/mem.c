@@ -37,6 +37,7 @@ page_list_t free_pages;
 void mem_init(atag_t * atags) {
 	uint32_t mem_size;
 	uint32_t page_array_len;
+	uint32_t page_array_end;
 	uint32_t kernel_pages;
 	uint32_t i;
 
@@ -55,9 +56,16 @@ void mem_init(atag_t * atags) {
 	// Start with kernel pages
 	kernel_pages = ((uint32_t)&__end) / PAGE_SIZE;
 	for (i = 0; i < kernel_pages; i++) {
-		all_pages_array[i].vaddr_mapped = i * PAGE_SIZE; 	// Identitty map the kernel pages
+		all_pages_array[i].vaddr_mapped = i * PAGE_SIZE; 	// Identity map the kernel pages
 		all_pages_array[i].flags.allocated = 1;
 		all_pages_array[i].flags.kernel_page = 1;
+	}
+
+	// Reserve 1 MB for kernel heap
+	for(; i < kernel_pages + (KERNEL_HEAP_SIZE / PAGE_SIZE); i++) {
+		all_pages_array[i].vaddr_mapped = i * PAGE_SIZE; 	// Indentity map the kernel heap pages 
+		all_pages_array[i].flags.allocated = 1;
+		all_pages_array[i].flags.kernel_heap_page = 1;
 	}
 
 	// Map the rest of the pages as unallocated, and add them to free list
@@ -65,6 +73,10 @@ void mem_init(atag_t * atags) {
 		all_pages_array[i].flags.allocated = 0;
 		append_page_list(&free_pages, &all_pages_array[i]);
 	}
+
+	// Init heap
+	page_array_end = (uint32_t)&__end + page_array_len;
+	heap_init(page_array_end);
 }
 
 void * alloc_page(void) {
