@@ -1,6 +1,8 @@
 # Use ARM compiler
 CC = arm-none-eabi-gcc
 
+OBJCOPY = arm-none-eabi-objcopy
+
 CPU = cortex-a7
 
 # Flags
@@ -21,12 +23,13 @@ OBJECTS += $(patsubst $(COMMON_SRC)/%.c, $(OBJ_DIR)/%.o, $(COMMONSOURCES))
 OBJECTS += $(patsubst $(KER_SRC)/%.S, $(OBJ_DIR)/%.o, $(ASMSOURCES))
 HEADERS = $(wildcard $(KER_HEAD)/*.h)
 
-IMG_NAME = kernel.img
+IMG_NAME = kernel
 
 
 build: $(OBJECTS) $(HEADERS)
 	echo $(OBJECTS)
-	$(CC) -T linker.ld -o $(IMG_NAME) $(LFLAGS) $(OBJECTS)
+	$(CC) -T linker.ld -o $(IMG_NAME).elf $(LFLAGS) $(OBJECTS)
+	$(OBJCOPY) $(IMG_NAME).elf -O binary $(IMG_NAME).img
 
 $(OBJ_DIR)/%.o: $(KER_SRC)/%.c
 	mkdir -p $(@D)
@@ -42,7 +45,8 @@ $(OBJ_DIR)/%.o: $(COMMON_SRC)/%.c
 
 clean:
 	rm -rf $(OBJ_DIR)
-	rm $(IMG_NAME)
+	rm $(IMG_NAME).elf
+	rm $(IMG_NAME).img
 
 run: build
-	qemu-system-arm -m 256 -M raspi2 -serial stdio -kernel $(IMG_NAME)
+	qemu-system-arm -m 256 -no-reboot -M raspi2 -serial stdio -kernel $(IMG_NAME).elf

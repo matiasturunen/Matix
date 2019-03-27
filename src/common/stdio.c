@@ -1,12 +1,14 @@
 #include <common/stdio.h>
 #include <kernel/uart.h>
+#include <kernel/gpu.h>
 
 char getc() {
 	return uart_getc();
 }
 
 void putc(char c) {
-	uart_putc(c);
+	//uart_putc(c);
+	gpu_putc(c); // Use gpu
 }
 
 void gets(char * buf, int buflen) {

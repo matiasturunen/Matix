@@ -1,5 +1,6 @@
 #include <stdint.h>
 #include <stddef.h>
+#include <kernel/peripheral.h>
 
 #ifndef MAILBOX_H
 #define MAILBOX_H
@@ -8,12 +9,12 @@
 #define MAIL0_READ (((mail_message_t *)(0x00 + MAILBOX_BASE)))
 #define MAIL0_STATUS (((mail_status_t *)(0x18 + MAILBOX_BASE)))
 #define MAIL0_WRITE (((mail_message_t *)(0x20 + MAILBOX_BASE)))
-#define PROPERTY_CHANNEL = 8;
-#define FRAMEBUFFER_CHANNEL = 1;
+#define PROPERTY_CHANNEL 8
+#define FRAMEBUFFER_CHANNEL 1
 
 typedef enum {
 	NULL_TAG = 0,
-	FB_ALLOCAE_BUFFER = 0x00040001,
+	FB_ALLOCATE_BUFFER = 0x00040001,
 	FB_RELEASE_BUFFER = 0x00048001,
 	FB_GET_PHYSICAL_DIMENSIONS = 0x00040003,
 	FB_SET_PHYSICAL_DIMENSIONS = 0x00048003,
@@ -75,7 +76,7 @@ typedef struct {
 	value_buffer_t value_buffer;
 } property_message_tag_t;
 
-uint32_t get_value_buffer_len(property_message_tag_t * tag);
+static uint32_t get_value_buffer_len(property_message_tag_t * tag);
 int send_messages(property_message_tag_t * tags);
 mail_message_t mailbox_read(int channel);
 void mailbox_send(mail_message_t msg, int channel);

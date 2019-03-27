@@ -1,6 +1,7 @@
 #include <stdint.h>
 #include <kernel/mailbox.h>
 #include <common/stdlib.h>
+#include <kernel/mem.h>
 
 static uint32_t get_value_buffer_len(property_message_tag_t * tag) {
 	switch(tag->proptag) {
@@ -48,10 +49,10 @@ int send_messages(property_message_tag_t * tags) {
 	// Copy the messages into the buffer
 	for (i=0, bufpos=0; tags[i].proptag != NULL_TAG; i++) {
 		len = get_value_buffer_len(&tags[i]);
-		msg->tags[bufpos++] = tags.proptag;
+		msg->tags[bufpos++] = tags[i].proptag;
 		msg->tags[bufpos++] = len;
 		msg->tags[bufpos++] = 0;
-		memcpy(msg->tag+bufpos, &tags[i].value_buffer, len);
+		memcpy(msg->tags+bufpos, &tags[i].value_buffer, len);
 		bufpos += len/4;
 	}
 
@@ -60,8 +61,8 @@ int send_messages(property_message_tag_t * tags) {
 	// Send the message
 	mail.data = ((uint32_t)msg) >> 4;
 
-	mailbox.send(mail, PROPERTY_CAHNNEL);
-	mail = mailbox.read(PROPERTY_CAHNNEL);
+	mailbox_send(mail, PROPERTY_CHANNEL);
+	mail = mailbox_read(PROPERTY_CHANNEL);
 
 	if (msg->req_res_code == REQUEST) {
 		kfree(msg);
@@ -69,7 +70,7 @@ int send_messages(property_message_tag_t * tags) {
 	}
 
 	// Check the response code
-	if (Msg->req_res_code == RESPOSE_ERROR) {
+	if (msg->req_res_code == RESPONSE_ERROR) {
 		kfree(msg);
 		return 2;
 	}
@@ -86,3 +87,33 @@ int send_messages(property_message_tag_t * tags) {
 	return 0;
 }
 
+mail_message_t mailbox_read(int channel) {
+	mail_status_t stat;
+	mail_message_t res;
+
+	// Make súre that message is coming from corrent channel
+	do {
+		// Make sure there is mail to recieve
+		do {
+			stat = *MAIL0_STATUS;
+		} while (stat.empty);
+		
+		// Get the message
+		res = *MAIL0_READ; 
+	} while (res.channel != channel);
+
+	return res;
+}
+
+void mailbox_send(mail_message_t msg, int channel) {
+	mail_status_t stat;
+	msg.channel = channel;
+
+	// Make sure that we can send mail
+	do {
+		stat = *MAIL0_STATUS;
+	} while (stat.full);
+
+	// send the message
+	*MAIL0_WRITE = msg;
+}

@@ -1,6 +1,7 @@
 #include <stdint.h>
 #include <kernel/gpu.h>
 #include <kernel/framebuffer.h>
+#include <common/stdlib.h>
 
 void write_pixel(uint32_t x, uint32_t y, const pixel_t * pix) {
 	uint8_t * location = fbinfo.buf + y*fbinfo.pitch + x*BYTES_PER_PIXEL;
@@ -12,6 +13,7 @@ void gpu_putc(char c) {
 	static const pixel_t BLACK = {0x00, 0x00, 0x00};
 
 	uint8_t w,h;
+	uint8_t mask;
 	const uint8_t * bmp = font(c);
 	uint32_t i, num_rows = fbinfo.height/CHAR_HEIGHT;
 
@@ -51,7 +53,7 @@ void gpu_putc(char c) {
 }
 
 void gpu_init(void) {
-	static const pixel_t BLACK = {0x00, 0x00, 0x00};
+	static const pixel_t BLACK = {0xff, 0xff, 0xff};
 	// Because framebuffer init does not always work, do it in a loop
 	while(framebuffer_init());
 

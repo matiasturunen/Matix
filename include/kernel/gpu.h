@@ -6,7 +6,7 @@
 #define GPU_H
 
 #define CHAR_WIDTH 8
-#define CAHR_HEIGHT 8
+#define CHAR_HEIGHT 8
 
 typedef struct pixel {
 	uint32_t red;
