@@ -1,7 +1,8 @@
 #include <common/stdlib.h>
 
 void memcpy (void * dest, void * src, int bytes) {
-	char * d = dest, * s = src;
+	char * d = dest;
+	const char * s = src;
 	while (bytes--) {
 		*d++ = *s++;
 	}
@@ -49,4 +50,43 @@ char * itoa(int i) {
 		j--;
 	}
 	return intbuf;
+}
+
+uint32_t div(uint32_t dividend, uint32_t divisor) {
+	return dividend / divisor;
+}
+
+divmod_t divmod(uint32_t dividend, uint32_t divisor) {
+	divmod_t res;
+	res.div = dividend / divisor;
+	res.mod = dividend % divisor;
+
+	return res;
+}
+
+int atoi(char* num) {
+	int res = 0;
+	int power = 0;
+	int digit;
+	int i;
+	char * start = num;
+
+	// Find the end
+	while (*num >= '0' && *num <= '9') {
+		num++;
+	}
+
+	num--;
+
+	while (num != start) {
+		digit = *num - '0';
+		for (i=0; i < power; i++) {
+			digit *= 10;
+		}
+		res += digit;
+		power++;
+		num--;
+	}
+
+	return res;
 }
