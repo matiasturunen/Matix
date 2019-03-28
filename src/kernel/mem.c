@@ -179,5 +179,6 @@ void kfree(void* ptr) {
         seg->next->next->prev = seg;
         seg->next = seg->next->next;
         seg->segment_size += seg->next->segment_size;
+        seg = seg->next;
     }
 }
