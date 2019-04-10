@@ -29,7 +29,7 @@ IMG_NAME = kernel
 build: $(OBJECTS) $(HEADERS)
 	echo $(OBJECTS)
 	$(CC) -T linker.ld -o $(IMG_NAME).elf $(LFLAGS) $(OBJECTS)
-	$(OBJCOPY) $(IMG_NAME).elf -O binary $(IMG_NAME).img
+	$(OBJCOPY) $(IMG_NAME).elf -O binary $(IMG_NAME)7.img
 
 $(OBJ_DIR)/%.o: $(KER_SRC)/%.c
 	mkdir -p $(@D)
@@ -46,7 +46,7 @@ $(OBJ_DIR)/%.o: $(COMMON_SRC)/%.c
 clean:
 	rm -rf $(OBJ_DIR)
 	rm $(IMG_NAME).elf
-	rm $(IMG_NAME).img
+	rm $(IMG_NAME)7.img
 
 run: build
 	qemu-system-arm -m 256 -no-reboot -M raspi2 -serial stdio -kernel $(IMG_NAME).elf
