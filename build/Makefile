@@ -3,7 +3,8 @@ CC = arm-none-eabi-gcc
 
 OBJCOPY = arm-none-eabi-objcopy
 
-CPU = cortex-a7
+# On emulator I used cortex-a7
+CPU = cortex-a53
 
 # Flags
 CFLAGS = -mcpu=$(CPU) -fpic -ffreestanding
