@@ -1,9 +1,10 @@
 # Use ARM compiler
+#CC = aarch64-linux-gnu-gcc
 CC = arm-none-eabi-gcc
 
+#OBJCOPY = aarch64-linux-gnu-objcopy
 OBJCOPY = arm-none-eabi-objcopy
 
-# On emulator I used cortex-a7
 CPU = cortex-a53
 
 # Flags
