@@ -31,14 +31,11 @@ void kernel_main(uint32_t r0, uint32_t r1, uint32_t atags) {
 
 	
 	puts("Hello, kernel world!\r\n"); // Print HelloWorld
-
-	// Print any typed character
+/*
 	int i = 0;
 	while(1) {
-		//gets(buf, BUFFER_SIZE);
-		//puts(buf);
 		i++;
 		puts(itoa(i));
 		putc('\n');
-	}
+	}*/
 }

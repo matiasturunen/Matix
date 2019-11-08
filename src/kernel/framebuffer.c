@@ -7,11 +7,11 @@ int framebuffer_init(void) {
 	property_message_tag_t tags[5];
 
 	tags[0].proptag = FB_SET_PHYSICAL_DIMENSIONS;
-	tags[0].value_buffer.fb_screen_size.width = 640;
-	tags[0].value_buffer.fb_screen_size.height = 480;
+	tags[0].value_buffer.fb_screen_size.width = FB_WIDTH;
+	tags[0].value_buffer.fb_screen_size.height = FB_HEIGHT;
 	tags[1].proptag = FB_SET_VIRTUAL_DIMENSIONS;
-	tags[1].value_buffer.fb_screen_size.width = 640;
-	tags[1].value_buffer.fb_screen_size.height = 480;
+	tags[1].value_buffer.fb_screen_size.width = FB_WIDTH;
+	tags[1].value_buffer.fb_screen_size.height = FB_HEIGHT;
 	tags[2].proptag = FB_SET_BITS_PER_PIXEL;
 	tags[2].value_buffer.fb_bits_per_pixel = COLORDEPTH;
 	tags[3].proptag = NULL_TAG;
@@ -31,8 +31,8 @@ int framebuffer_init(void) {
 
 	// Request a framebuffer
 	tags[0].proptag = FB_ALLOCATE_BUFFER;
-	tags[0].value_buffer.fb_screen_size.width = 0;
-	tags[0].value_buffer.fb_screen_size.height = 0;
+	tags[0].value_buffer.fb_screen_size.width = 0; // 0
+	tags[0].value_buffer.fb_screen_size.height = 0; // 0
 	tags[0].value_buffer.fb_allocate_align = 16;
 	tags[1].proptag = NULL_TAG;
 

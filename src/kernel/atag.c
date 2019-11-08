@@ -3,7 +3,7 @@
 uint32_t get_mem_size(atag_t * tag) {
 	
 	// If running inside of QEMU VM
-	//return 1024 * 1024 * 128;
+	return 1024 * 1024 * 128;
 
 	while (tag->tag != NONE) {
 		if (tag->tag == MEM) {

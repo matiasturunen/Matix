@@ -5,6 +5,8 @@
 
 #define COLORDEPTH 24
 #define BYTES_PER_PIXEL COLORDEPTH/8
+#define FB_HEIGHT 300
+#define FB_WIDTH 400
 
 typedef struct framebuffer_info {
 	uint32_t width;

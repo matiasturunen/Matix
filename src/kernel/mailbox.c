@@ -3,6 +3,8 @@
 #include <common/stdlib.h>
 #include <kernel/mem.h>
 
+#include <kernel/uart.h>
+
 static uint32_t get_value_buffer_len(property_message_tag_t * tag) {
 	switch(tag->proptag) {
 		case FB_ALLOCATE_BUFFER:
@@ -25,7 +27,6 @@ int send_messages(property_message_tag_t * tags) {
 	property_message_buffer_t * msg;
 	mail_message_t mail;
 	uint32_t bufsize = 0, i, len, bufpos;
-
 	// Calculate sizes of each tag
 	for(i=0; tags[i].proptag != NULL_TAG; i++) {
 		bufsize += get_value_buffer_len(&tags[i]) + 3*sizeof(uint32_t);
@@ -34,7 +35,7 @@ int send_messages(property_message_tag_t * tags) {
 	// Add the buffer size, buffer request/response code and buffer end tag sizes
 	bufsize += 3*sizeof(uint32_t);
 
-	// Buffer size mus be 16 byte aligned
+	// Buffer size must be 16 byte aligned
 	bufsize += (bufsize%16) ? 16 - (bufsize%16) : 0;
 
 	// kmalloc retursn a 16 byte aligned address
@@ -63,17 +64,18 @@ int send_messages(property_message_tag_t * tags) {
 
 	mailbox_send(mail, PROPERTY_CHANNEL);
 	mail = mailbox_read(PROPERTY_CHANNEL);
-
+/*
+    // msg->req_res_code does not change anywhere...
 	if (msg->req_res_code == REQUEST) {
 		kfree(msg);
 		return 1;
 	}
-
 	// Check the response code
 	if (msg->req_res_code == RESPONSE_ERROR) {
 		kfree(msg);
 		return 2;
 	}
+*/	
 
 	// Copy the tags back into the array
 	for (i = 0, bufpos = 0; tags[i].proptag != NULL_TAG; i++) {

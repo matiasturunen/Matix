@@ -1,1 +1,2 @@
 kernel=kernel8.img
+start_db=1

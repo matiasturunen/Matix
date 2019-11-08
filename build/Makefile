@@ -1,11 +1,7 @@
 # Use ARM compiler
-CC = aarch64-linux-gnu-gcc
-#CC = arm-none-eabi-gcc
-CC = /mnt/c/Users/mt95/Downloads/gcc-arm-8.2-2019.01-x86_64-aarch64-elf/bin/aarch64-elf-gcc
 
-OBJCOPY = aarch64-linux-gnu-objcopy
-OBJCOPY = /mnt/c/Users/mt95/Downloads/gcc-arm-8.2-2019.01-x86_64-aarch64-elf/bin/aarch64-elf-objcopy
-#OBJCOPY = arm-none-eabi-objcopy
+CC = aarch64-elf-gcc
+OBJCOPY = aarch64-elf-objcopy
 
 CPU = cortex-a53
 
@@ -53,4 +49,4 @@ clean:
 	rm $(IMG_NAME)8.img
 
 run: build
-	qemu-system-arm -m 256 -no-reboot -M raspi2 -serial stdio -kernel $(IMG_NAME).elf
+	qemu-system-aarch64 -M raspi3 -kernel $(IMG_NAME)8.img -serial stdio
